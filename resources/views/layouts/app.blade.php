@@ -77,11 +77,8 @@
         </main>
     </div>
 </body>
-<script src="{{ asset('js/app.js') }}"></script>
 <script>
-    $('#exampleModal').modal({
-        backdrop: false
-    })
+    console.log("Hello");
     
 </script>
 </html>

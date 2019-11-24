@@ -1,12 +1,12 @@
-import example from './components/ExampleComponent';
+import CreatePost from './components/CreatePost';
 
 export default {
-    mode: "history",
+    mode : 'history',
 
-    routes:[
+    routes : [
         {
-            path: '/',
-            component: example
+            path : '/',
+            component : CreatePost
         }
     ]
 }

@@ -31,7 +31,9 @@
 </template>
 
 <script>
-    
+    // $('#exampleModal').modal({
+    //     backdrop: true
+    // })
     export default {
         mounted() {
             console.log('Component mounted.')
