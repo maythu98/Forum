@@ -1896,16 +1896,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      tags: [],
+      tagName: '',
+      tagId: 0
+    };
   },
   methods: {
     createPost: function createPost() {
-      var formData = new FormData(this.$refs['createPostForm']); // reference to form element
-
-      var data = {}; // need to convert it before using not with XMLHttpRequest
-
+      var formData = new FormData(this.$refs['createPostForm']);
+      var data = {};
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -1933,7 +1943,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         }
       }
 
+      data['tags'] = this.tags;
       axios.post('/createPost', data);
+    },
+    addTags: function addTags() {
+      this.tags.push($('#addedTagName').val());
+      $('#addedTagName').val('').focus();
+    },
+    removeTag: function removeTag(tagNumber) {
+      this.tags.splice(tagNumber, 1);
     }
   },
   mounted: function mounted() {
@@ -37273,7 +37291,7 @@ var render = function() {
           id: "createPostModal",
           tabindex: "-1",
           role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
+          "aria-labelledby": "createPostModelLabel",
           "aria-hidden": "true"
         }
       },
@@ -37297,7 +37315,72 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]
+                  [_vm._m(1), _vm._v(" "), _vm._m(2)]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: "addedTagName" } }, [
+                    _vm._v("Tags")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: { id: "addedTagName", type: "text" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary",
+                      on: {
+                        click: function($event) {
+                          return _vm.addTags()
+                        }
+                      }
+                    },
+                    [_vm._v(" Next ")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "row flex-row" },
+                  _vm._l(_vm.tags, function(tagName, tagNumber) {
+                    return _c(
+                      "div",
+                      {
+                        key: tagNumber,
+                        staticClass: "p-2 bg-light m-2 rounded-pill "
+                      },
+                      [
+                        _c("span", { staticClass: "px-2" }, [
+                          _vm._v(
+                            " \n                            " +
+                              _vm._s(tagName) +
+                              " \n                            "
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: { type: "button", "aria-label": "Close" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeTag(tagNumber)
+                                }
+                              }
+                            },
+                            [
+                              _c("span", { attrs: { "aria-hidden": "true" } }, [
+                                _vm._v("×")
+                              ])
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  }),
+                  0
                 )
               ]),
               _vm._v(" "),
@@ -37340,7 +37423,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        { staticClass: "modal-title", attrs: { id: "createPostModelLabel" } },
         [_vm._v(" Create Post ")]
       ),
       _vm._v(" "),
@@ -37367,7 +37450,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "text", name: "title" }
+        attrs: { type: "title", id: "title", name: "title" }
       })
     ])
   },
@@ -37376,20 +37459,12 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Body")]),
+      _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
       _vm._v(" "),
       _c("textarea", {
         staticClass: "form-control",
-        attrs: { name: "body", id: "", cols: "30", rows: "10" }
+        attrs: { name: "body", id: "body", cols: "30", rows: "10" }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Tags")])
     ])
   }
 ]
@@ -52632,8 +52707,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/may/MTA_Code/forum/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/may/MTA_Code/forum/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /mnt/d/Lara/forum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/d/Lara/forum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

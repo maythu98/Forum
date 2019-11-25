@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     //
     public function createPost(Request $request) {
-        
+        dd($request->all());
         Post::create([
             'title' => $request->title,
             'body' => $request->body
