@@ -51,6 +51,11 @@
         </div>
         </div>
 
+        <div class="container">
+            <div class="row">
+                    {{ createdPost.body }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -60,7 +65,8 @@
             return {
                 tags: [],
                 tagName: '',
-                tagId: 0 
+                tagId: 0,
+                createdPost:{},
             }
         },
         methods: {
@@ -76,7 +82,11 @@
 
                 data['tags'] = this.tags;
 
-                axios.post('/createPost', data);
+                axios.post('/createPost', data).then(response=> {
+					console.log(response);
+                    this.createdPost = response.data;
+                    $('#createPostModal').modal('hide');                    
+				});		
 
             },
 

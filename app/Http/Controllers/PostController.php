@@ -11,10 +11,22 @@ class PostController extends Controller
 {
     //
     public function createPost(Request $request) {
-        dd($request->all());
-        Post::create([
+        
+        $post = Post::with('post_tags')->create([
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
         ]);
+        
+        foreach ($request->tags as $key => $tag) {
+            PostTags::create([
+                'postId' => $post->id,
+                'tagName' => $tag
+            ]);
+        }
+
+        $post = Post::with('post_tags')->find($post->id);
+
+        return $post->toJson();
+
     }
 }

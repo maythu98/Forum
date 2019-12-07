@@ -1904,16 +1904,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tags: [],
       tagName: '',
-      tagId: 0
+      tagId: 0,
+      createdPost: {}
     };
   },
   methods: {
     createPost: function createPost() {
+      var _this = this;
+
       var formData = new FormData(this.$refs['createPostForm']);
       var data = {};
       var _iteratorNormalCompletion = true;
@@ -1944,7 +1952,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
 
       data['tags'] = this.tags;
-      axios.post('/createPost', data);
+      axios.post('/createPost', data).then(function (response) {
+        console.log(response);
+        _this.createdPost = response.data;
+        $('#createPostModal').modal('hide');
+      });
     },
     addTags: function addTags() {
       this.tags.push($('#addedTagName').val());
@@ -37412,7 +37424,15 @@ var render = function() {
           ]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _vm._v(
+          "\n                " + _vm._s(_vm.createdPost.body) + "\n        "
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -52707,8 +52727,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /mnt/d/Lara/forum/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /mnt/d/Lara/forum/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/may/MTA_Code/forum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/may/MTA_Code/forum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

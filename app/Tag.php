@@ -9,7 +9,8 @@ class Tag extends Model
     //
     protected $guarded = [];
 
-    public function posts() {
-        return $this->belongsToMany('App\Post', 'post_tag', 'tagID', 'postID');
+    public function post_tags() {
+        return $this->hasMany(PostTags::class, 'tagId');
     }
+
 }
