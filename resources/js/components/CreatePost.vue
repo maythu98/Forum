@@ -1,9 +1,6 @@
 <template>
     <div class="container">
 
-        <button type="button" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createPostModal">
-        Create Post
-        </button>
 
         <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModelLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -52,9 +49,26 @@
         </div>
 
         <div class="container">
-            <div class="row">
-                    {{ createdPost.body }}
+            <div class="row border my-3 p-3 flex-column">  
+                <b>{{ createdPost.title }}</b>
+                <p>{{createdPost.body}}</p>
+                
+                <div v-for="tag in createdPost.post_tags">
+                    <span class="badge badge-pill badge-info text-white"> {{tag.tagName }} </span>
+                    
+                </div>
+            </div>  
+
+            <div class="row border my-3 p-3 flex-column" v-for="post in allPosts">
+                <b>{{ post.title }}</b>
+                <p>{{post.body}}</p>
+                
+                <div v-for="tag in post.post_tags">
+                    <span class="badge badge-pill badge-info text-white"> {{tag.tagName }} </span>
+                    
+                </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -67,6 +81,7 @@
                 tagName: '',
                 tagId: 0,
                 createdPost:{},
+                allPosts:{}
             }
         },
         methods: {
@@ -89,7 +104,11 @@
 				});		
 
             },
-
+            getPosts() {
+                axios.get('/getPosts').then(response=> {
+                    this.allPosts = response.data;
+                });
+            },
             addTags() {
 
                 this.tags.push($('#addedTagName').val());
@@ -105,6 +124,7 @@
         },
         mounted() {
             console.log('Component mounted.');
+            this.getPosts();
         }
     }
 </script>

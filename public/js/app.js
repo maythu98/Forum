@@ -1909,13 +1909,28 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       tags: [],
       tagName: '',
       tagId: 0,
-      createdPost: {}
+      createdPost: {},
+      allPosts: {}
     };
   },
   methods: {
@@ -1958,6 +1973,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         $('#createPostModal').modal('hide');
       });
     },
+    getPosts: function getPosts() {
+      var _this2 = this;
+
+      axios.get('/getPosts').then(function (response) {
+        _this2.allPosts = response.data;
+      });
+    },
     addTags: function addTags() {
       this.tags.push($('#addedTagName').val());
       $('#addedTagName').val('').focus();
@@ -1968,6 +1990,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
+    this.getPosts();
   }
 });
 
@@ -37281,21 +37304,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c(
-      "button",
-      {
-        staticClass: "btn btn-primary",
-        attrs: {
-          type: "button",
-          "data-backdrop": "static",
-          "data-keyboard": "false",
-          "data-toggle": "modal",
-          "data-target": "#createPostModal"
-        }
-      },
-      [_vm._v("\n    Create Post\n    ")]
-    ),
-    _vm._v(" "),
-    _c(
       "div",
       {
         staticClass: "modal fade",
@@ -37426,13 +37434,56 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _vm._v(
-          "\n                " + _vm._s(_vm.createdPost.body) + "\n        "
-        )
-      ])
-    ])
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _c(
+          "div",
+          { staticClass: "row border my-3 p-3 flex-column" },
+          [
+            _c("b", [_vm._v(_vm._s(_vm.createdPost.title))]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.createdPost.body))]),
+            _vm._v(" "),
+            _vm._l(_vm.createdPost.post_tags, function(tag) {
+              return _c("div", [
+                _c(
+                  "span",
+                  { staticClass: "badge badge-pill badge-info text-white" },
+                  [_vm._v(" " + _vm._s(tag.tagName) + " ")]
+                )
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.allPosts, function(post) {
+          return _c(
+            "div",
+            { staticClass: "row border my-3 p-3 flex-column" },
+            [
+              _c("b", [_vm._v(_vm._s(post.title))]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(post.body))]),
+              _vm._v(" "),
+              _vm._l(post.post_tags, function(tag) {
+                return _c("div", [
+                  _c(
+                    "span",
+                    { staticClass: "badge badge-pill badge-info text-white" },
+                    [_vm._v(" " + _vm._s(tag.tagName) + " ")]
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        })
+      ],
+      2
+    )
   ])
 }
 var staticRenderFns = [
@@ -52727,8 +52778,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/may/MTA_Code/forum/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/may/MTA_Code/forum/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /mnt/d/Lara/forum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/d/Lara/forum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
