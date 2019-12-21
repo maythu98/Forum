@@ -16,8 +16,10 @@ Route::get('/', function () {
 });
 
 
-Route::post('/createPost', 'PostController@createPost')->middleware('auth');
+Route::post('/createPost/{id}', 'PostController@createPost')->middleware('auth');
 Route::get('/getPosts', 'PostController@getPosts');
+Route::post('/removePost/{id}', 'PostController@removePost');
+Route::get('/editPost/{id}', 'PostController@editPost');
 
 Auth::routes();
 
