@@ -110,16 +110,12 @@
                 });
             },
             addTags() {
-
                 this.tags.push($('#addedTagName').val());
                 $('#addedTagName').val('').focus();
-            
             },
 
             removeTag(tagNumber) {
-
                 this.tags.splice(tagNumber,1);
-
             }
         },
         mounted() {

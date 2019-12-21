@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Tag;
 use App\PostTags;
-
 class PostController extends Controller
 {
     
@@ -30,11 +28,6 @@ class PostController extends Controller
                 'tagName' => $tag
             ]);
         }
-
-        $post = Post::with('post_tags')->find($post->id);
-
         return $post->toJson();
-
     }
-
 }
