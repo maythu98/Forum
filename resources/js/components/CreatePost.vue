@@ -1,7 +1,5 @@
 <template>
-    <div class="container">
-
-
+    <div class="container p-0">
         <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModelLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -49,23 +47,23 @@
         </div>
 
         <div class="container">
-            <div class="row border my-3 p-3 flex-column">  
+            <div class="overall-post-container">  
                 <b>{{ createdPost.title }}</b>
                 <p>{{createdPost.body}}</p>
                 
                 <div v-for="tag in createdPost.post_tags">
                     <span class="badge badge-pill badge-info text-white"> {{tag.tagName }} </span>
-                    
                 </div>
             </div>  
 
-            <div class="row border my-3 p-3 flex-column" v-for="post in allPosts">
-                <b>{{ post.title }}</b>
-                <p>{{post.body}}</p>
+            <div class="overall-post-container" v-for="post in allPosts">
+                <b class="overall-post-title">{{ post.title }}</b>
+                <p class="overall-post-body">{{post.body}}</p>
                 
-                <div v-for="tag in post.post_tags">
-                    <span class="badge badge-pill badge-info text-white"> {{tag.tagName }} </span>
-                    
+                <div class="overall-tags-container">
+                    <div v-for="tag in post.post_tags">
+                        <span class="little-tag-container"> {{tag.tagName }} </span>
+                    </div>
                 </div>
             </div>
 

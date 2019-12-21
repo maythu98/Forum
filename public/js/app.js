@@ -1921,8 +1921,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37302,7 +37300,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container p-0" }, [
     _c(
       "div",
       {
@@ -37440,7 +37438,7 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "row border my-3 p-3 flex-column" },
+          { staticClass: "overall-post-container" },
           [
             _c("b", [_vm._v(_vm._s(_vm.createdPost.title))]),
             _vm._v(" "),
@@ -37460,26 +37458,28 @@ var render = function() {
         ),
         _vm._v(" "),
         _vm._l(_vm.allPosts, function(post) {
-          return _c(
-            "div",
-            { staticClass: "row border my-3 p-3 flex-column" },
-            [
-              _c("b", [_vm._v(_vm._s(post.title))]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(post.body))]),
-              _vm._v(" "),
+          return _c("div", { staticClass: "overall-post-container" }, [
+            _c("b", { staticClass: "overall-post-title" }, [
+              _vm._v(_vm._s(post.title))
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "overall-post-body" }, [
+              _vm._v(_vm._s(post.body))
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "overall-tags-container" },
               _vm._l(post.post_tags, function(tag) {
                 return _c("div", [
-                  _c(
-                    "span",
-                    { staticClass: "badge badge-pill badge-info text-white" },
-                    [_vm._v(" " + _vm._s(tag.tagName) + " ")]
-                  )
+                  _c("span", { staticClass: "little-tag-container" }, [
+                    _vm._v(" " + _vm._s(tag.tagName) + " ")
+                  ])
                 ])
-              })
-            ],
-            2
-          )
+              }),
+              0
+            )
+          ])
         })
       ],
       2

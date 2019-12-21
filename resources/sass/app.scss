@@ -1,8 +1,22 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import './custom_variables.scss';
 
-// Variables
-@import 'variables';
+body {
+    @extend .bg-white;
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+.overall-post-container {
+    box-shadow: $custom-shadow-md;
+    @extend .rounded-lg, .row, .my-4, .p-3, .flex-column, .bg-white, .p-3;
+    
+    .overall-post-body {
+        @extend .my-3;
+    }
+}
+.overall-tags-container {
+    @extend .d-flex, .flex-row, .m-0;
+
+    div {
+        @extend .mr-1;
+    }
+    
+}
