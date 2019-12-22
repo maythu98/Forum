@@ -17,9 +17,7 @@
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>
-                            <textarea name="body" id="body" cols="30" rows="10" class="form-control"> 
-                                {{this.postBody}} 
-                            </textarea>
+                            <textarea name="body" id="body" cols="30" rows="10" class="form-control" v-model="postBody"> </textarea>
                         </div>
                     </form>
                     <div class="form-group">
@@ -48,39 +46,23 @@
         </div>
         </div>
 
-        <div class="container">
-            <div class="row border my-3 p-3 flex-column" v-for="post in allPosts" :id="'post_'+ post.id">
-                <b>{{ post.title }}</b>
-                <p>{{post.body}}</p>
-                
-                <div class="overall-tags-container">
-                    <div v-for="tag in post.post_tags">
-                        <span class="little-tag-container"> {{tag.tagName }} </span>
-                    </div>
-                </div>
-
-                <div>
-                    <button class="btn btn-danger" @click="removePost(post.id)">Remove Post</button>
-
-                    <button class="btn btn-info" @click="editPost(post.id)"> Update Post </button>
-                </div>
-            </div>
-
-        </div>
-
+        <PostList ref="postListComponent"/> 
     </div>
 </template>
 
 <script>
-import { log } from 'util';
+    import PostList from "./postList";
     export default {
+        components: {
+            PostList
+        },
+    
         data() {
             return {
                 tags: [],
                 tagName: '',
                 tagId: 0,
                 createdPost:{},
-                allPosts:{},
                 post: {'title': ''},
                 postTitle: '',
                 postBody: '',
@@ -100,16 +82,11 @@ import { log } from 'util';
                 data['tags'] = this.tags;
 
                 axios.post('/createPost/' + this.postId, data).then(response=> {
-                    this.getPosts();
+                    this.$refs.postListComponent.getPosts();
                     // this.createdPost = response.data;
                     $('#createPostModal').modal('hide');                    
 				});		
 
-            },
-            getPosts() {
-                axios.get('/getPosts').then(response=> {
-                    this.allPosts = response.data;
-                });
             },
             addTags() {
                 this.tags.push($('#addedTagName').val());
@@ -135,9 +112,6 @@ import { log } from 'util';
                     $('#createPostModal').modal();
                 });
             }
-        },
-        mounted() {
-            this.getPosts();
         }
     }
 </script>

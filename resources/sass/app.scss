@@ -5,13 +5,33 @@ body {
 }
 
 .overall-post-container {
+    z-index: 99;
     box-shadow: $custom-shadow-md;
-    @extend .rounded-lg, .row, .my-4, .p-3, .flex-column, .bg-white, .p-3;
+    transition-duration: 0.5s;
+
+    @extend .rounded-lg, .row, .mb-4, .p-3, .flex-column, .bg-white, .p-4;
     
+    &:hover {
+        z-index: 100;
+        transition-duration: 0.5s;
+        transform: scale(1.03);
+        box-shadow: $custom-shadow-md-hover;
+    }
+
+    .overall-post-header {
+    
+        @extend .d-flex, .flex-row, .justify-content-between, .align-items-center;
+    
+        .overall-post-title {
+            color: $post-title-color;
+        }
+    }
+
     .overall-post-body {
         @extend .my-3;
     }
 }
+
 .overall-tags-container {
     @extend .d-flex, .flex-row, .m-0;
 
@@ -20,3 +40,31 @@ body {
     }
     
 }
+
+.our-nav {
+    background: linear-gradient(150deg, #9E08FF, #4E5FF0);
+   
+    .navbar-brand {
+        @extend .text-white;
+    }
+    .our-navbar-toggler {
+        @extend .bg-transparent, .border-0;
+        .navbar-toggler-icon {
+            color: white;
+        }
+    
+    }
+    .nav-link {
+        @extend .text-white;
+    }
+}
+
+
+
+
+/* Color Theme Swatches in Hex */
+$WhiteBoard-Pen-1-hex: #9E08FF;
+$WhiteBoard-Pen-2-hex: #8648F0;
+$WhiteBoard-Pen-3-hex: #2200FF;
+$WhiteBoard-Pen-4-hex: #4E5FF0;
+$WhiteBoard-Pen-5-hex: #0052FA;

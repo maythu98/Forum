@@ -1,13 +1,23 @@
 @import '~bootstrap/scss/bootstrap';
 
-$little-tag-color: #FFBF00;
-$custom-shadow-md: 0 0.125rem 0.50rem rgba(0, 0, 0, 0.075) !important;
+$little-tag-color: #eaeaea;
+$custom-shadow-md: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.068) !important;
+$custom-shadow-md-hover: 0 0.125rem 2rem rgba(0, 0, 0, 0.12) !important;
+$post-title-color: #0053FA;
 
 .rounded-lg {
     border-radius: 1em !important;
 }
+.override-default-link {
+    @extend .text-black-50;
+    text-decoration: none;
 
+    &:hover {
+        text-decoration: none;
+    }
+}
 .little-tag-container {
     background: $little-tag-color;
-    @extend .badge, .text-white;
+    padding: 0.5em;
+    @extend .badge, .text-black-50, .rounded-lg;
 }

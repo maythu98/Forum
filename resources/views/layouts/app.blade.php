@@ -11,7 +11,8 @@
 
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Quicksand:600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand:600&display=swap" rel="stylesheet">
+
 
 
     <!-- Styles -->
@@ -19,7 +20,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md our-nav">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}

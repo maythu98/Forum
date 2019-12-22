@@ -19,17 +19,18 @@
         </ul>
         </div>
         <div class="col-md-9">
-        @guest
-        <router-link to="/">Create post</router-link>
-        @else
+            @guest
+            <router-link to="/">Create post</router-link>
+            @else
 
-        <button type="button" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createPostModal">
-        Create Post
-        </button>
-        @endguest
+            <button type="button" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createPostModal">
+            Create Post
+            </button>
+            @endguest
 
 
-        <create-post></create-post>
+            
+            <router-view></router-view>
         </div>
     </div>
 </div>
