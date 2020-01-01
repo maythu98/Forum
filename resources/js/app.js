@@ -32,9 +32,9 @@ window.Vue = require('vue');
 
 const app = new Vue({
   el : '#app',
-  components : { 
-    CreatePost
-  },
+  // components : { 
+  //   CreatePost
+  // },
   router : new VueRouter(routes),
 
 });
