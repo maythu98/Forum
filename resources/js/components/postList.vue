@@ -7,13 +7,14 @@
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Small button
             </button>
+            
             <div class="dropdown-menu">
                 <button class="btn btn-danger" @click="removePost(post.id)">
                     Delete
                 </button>Status:In development
 
 
-                <button class="btn btn-info" @click="editPost(post.id)">
+                <button class="btn btn-info" @click="callEditData(post.id)">
                     Update
                 </button>
             </div>
@@ -48,9 +49,11 @@
     </div>
 
     </div>
+    
 </template>
 
 <script>
+import { log } from 'util';
 export default {
      data() {
         return {
@@ -76,22 +79,16 @@ export default {
                 $(`#post_${id}`).remove()
             })
         },
-        editPost(id) {
-            axios.get('/editPost/'+id).then(response=> {                    
-                const post = response.data[0]; 
-                this.tags = response.data[1];
-                this.post.title = post.title;
-                this.postTitle = post.title;
-                this.postBody = post.body;
-                this.postId = post.id;
-                $('#createPostModal').modal();
-            });
+        callEditData(id) {            
+            this.$root.$emit('editPost', id);
         }
     },
-    
-        mounted() {
+    mounted() {
+        this.$root.$on('callGetPosts', () => {
             this.getPosts();
-        }
+        });
+        this.getPosts();
+    }
 }
 </script>
 

@@ -46,6 +46,7 @@
     </div>
 </template>
 <script>
+import { log } from 'util';
 export default {
     data() {
         return {
@@ -71,7 +72,7 @@ export default {
             data['tags'] = this.tags;
 
             axios.post('/createPost/' + this.postId, data).then(response=> {
-                this.$refs.postListComponent.getPosts();
+                this.$root.$emit('callGetPosts');
                 // this.createdPost = response.data;
                 $('#createPostModal').modal('hide');                    
             });		
@@ -90,7 +91,7 @@ export default {
             })
         },
 
-        editPost(id) {
+        editPost(id) {            
             axios.get('/editPost/'+id).then(response=> {                    
                 const post = response.data[0]; 
                 this.tags = response.data[1];
@@ -101,6 +102,12 @@ export default {
                 $('#createPostModal').modal();
             });
         }
+    },
+    mounted() {
+        this.$root.$on('editPost', id => {
+            this.editPost(id);
+        });
     }
+
 }
 </script>

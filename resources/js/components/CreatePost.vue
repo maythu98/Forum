@@ -58,6 +58,10 @@
         components: {
             PostList,
             CreatePostModal
+        },
+        mounted: {
+           
         }
+        
     }
 </script>
