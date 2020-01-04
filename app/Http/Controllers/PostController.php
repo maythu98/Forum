@@ -7,11 +7,16 @@ use App\Tag;
 use App\PostTags;
 class PostController extends Controller
 {
-    
     public function getPosts()
     {
-        $posts = Post::with('post_tags')->orderBy('created_at','desc')->get();
+        $posts = Post::with(['post_tags'=>function($tag){$tag->with('tag');}])->orderBy('created_at','desc')->get();
         return $posts->toJson();
+    }
+
+    public function showPost($id)
+    {
+        $post = Post::with('post_tags')->find($id);
+        return $post->toJson();
     }
     
     public function createPost(Request $request, $id) {
@@ -19,7 +24,7 @@ class PostController extends Controller
             $post = Post::create([
                 'title' => $request->title,
                 'body' => $request->body,
-                'userID' => Auth::id() 
+                'userID' => Auth::id()
             ]);
         }else {
             $post = Post::find($id);
@@ -35,21 +40,35 @@ class PostController extends Controller
             }
         }
 
-        foreach (request('tags') as $key => $tag) {
+        foreach (request('tags') as $key => $tagName) {
+            $tagName = strtolower($tagName);
+            $tag = Tag::where('tagName', $tagName)->first();
+            if (!$tag) {
+                $tag = Tag::create([
+                    'tagName' => $tagName
+                ]);
+            }
             PostTags::create([
                 'postId' => $post->id,
-                'tagName' => $tag
+                'tagId' => $tag->id
             ]);
         }
     }
 
     public function editPost($id) {
         $post = Post::find($id);
-        $tags = PostTags::where('postId', $id)->pluck('tagName');
+        $tags = Tag::whereHas('post_tags', function($query) use ($id) {
+            $query->where('postId', $id);
+        })->pluck('tagName');
+        // $tags = PostTags::where('postId', $id)->pluck('tagName');
         return [$post,$tags->all()];
     }
 
     public function removePost($id) {
         Post::find($id)->delete();
+        $postTags = PostTags::where('postId', $id)->get();
+        foreach ($postTags as $key => $postTag) {
+            $postTag->delete();
+        }
     }
 }

@@ -1850,57 +1850,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     PostList: _postList__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreatePostModal: _CreatePostModal__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
-  mounted: {}
+  }
 });
 
 /***/ }),
@@ -2076,6 +2032,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2083,12 +2041,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['postID'],
   data: function data() {
-    return {};
+    return {
+      post: []
+    };
   },
-  methods: {}
+  methods: {
+    showPost: function showPost() {
+      var _this = this;
+
+      axios.get('/showPost/' + this.postID).then(function (response) {
+        _this.post = response.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.showPost();
+  }
 });
 
 /***/ }),
@@ -38279,6 +38251,24 @@ var render = function() {
     "div",
     { staticClass: "container p-0" },
     [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: {
+            type: "button",
+            "data-backdrop": "static",
+            "data-keyboard": "false",
+            "data-toggle": "modal",
+            "data-target": "#createPostModal"
+          }
+        },
+        [_vm._v("\n        Create Post\n    ")]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
       _c("CreatePostModal", { ref: "CreatePostModalComponent" }),
       _vm._v(" "),
       _c("PostList", { ref: "postListComponent" })
@@ -38321,7 +38311,7 @@ var render = function() {
       }
     },
     [
-      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+      _c("div", { staticClass: "modal-dialog modal-lg" }, [
         _c("div", { staticClass: "modal-content" }, [
           _vm._m(0),
           _vm._v(" "),
@@ -38402,7 +38392,18 @@ var render = function() {
               _vm._v(" "),
               _c("input", {
                 staticClass: "form-control",
-                attrs: { id: "addedTagName", type: "text" }
+                attrs: { id: "addedTagName", type: "text" },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.addTags()
+                  }
+                }
               }),
               _vm._v(" "),
               _c(
@@ -38539,9 +38540,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h1", [_vm._v("Here")]),
+    _c("h1", [_vm._v(" " + _vm._s(_vm.post.title) + " ")]),
     _vm._v(" "),
-    _c("p", [_vm._v(_vm._s(_vm.postID))])
+    _c("p", [_vm._v(" " + _vm._s(_vm.post.body) + " ")])
   ])
 }
 var staticRenderFns = []
@@ -38649,7 +38650,7 @@ var render = function() {
               _vm._l(post.post_tags, function(tag) {
                 return _c("div", { key: tag.id }, [
                   _c("span", { staticClass: "little-tag-container" }, [
-                    _vm._v(" " + _vm._s(tag.tagName) + " ")
+                    _vm._v(" " + _vm._s(tag.tag.tagName) + " ")
                   ])
                 ])
               }),

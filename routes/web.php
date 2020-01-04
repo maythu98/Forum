@@ -21,6 +21,8 @@ Route::get('/getPosts', 'PostController@getPosts');
 Route::post('/removePost/{id}', 'PostController@removePost');
 Route::get('/editPost/{id}', 'PostController@editPost');
 
+Route::get('/showPost/{id}', 'PostController@showPost');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

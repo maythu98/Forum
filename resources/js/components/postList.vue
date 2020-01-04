@@ -32,7 +32,7 @@
 
         <div class="overall-tags-container">
             <div v-for="tag in post.post_tags" :key="tag.id">
-                <span class="little-tag-container"> {{tag.tagName }} </span>
+                <span class="little-tag-container"> {{tag.tag.tagName }} </span>
             </div>
         </div>
 

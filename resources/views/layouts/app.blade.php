@@ -79,11 +79,5 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-    $(document).ready(function(){
-        console.log("heloadfjka;lsdfja;so");
-    });
-    
-</script>
 
 </html>

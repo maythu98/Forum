@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="createPostModal" tabindex="-1" role="dialog" aria-labelledby="createPostModelLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="createPostModelLabel" > Create Post </h5>
@@ -21,7 +21,7 @@
                     </form>
                     <div class="form-group">
                         <label for="addedTagName">Tags</label>
-                        <input id="addedTagName" type="text" class="form-control">
+                        <input id="addedTagName" type="text" class="form-control" @keyup.enter="addTags()">
                         <button class="btn btn-secondary" @click="addTags()"> Next </button>
                     </div>
 
