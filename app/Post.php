@@ -14,4 +14,8 @@ class Post extends Model
     public function post_tags() {
         return $this->hasMany(PostTags::class, 'postId');
     }
+
+    public function post_comments() {
+        return $this->hasMany(PostComment::class, 'postId')->orderBy('created_at', 'desc');
+    }
 }

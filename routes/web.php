@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 
@@ -25,4 +25,7 @@ Route::get('/showPost/{id}', 'PostController@showPost');
 
 Auth::routes();
 
+// Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/saveComment/{id}', 'PostController@saveComment');

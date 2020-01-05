@@ -1853,6 +1853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   components: {
     PostList: _postList__WEBPACK_IMPORTED_MODULE_0__["default"],
     CreatePostModal: _CreatePostModal__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -2041,12 +2042,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['postID'],
   data: function data() {
     return {
-      post: []
+      post: [],
+      comment: ''
     };
   },
   methods: {
@@ -2055,6 +2079,17 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/showPost/' + this.postID).then(function (response) {
         _this.post = response.data;
+      });
+    },
+    saveComment: function saveComment() {
+      var _this2 = this;
+
+      var data = {};
+      data['comment'] = this.comment;
+      axios.post('/saveComment/' + this.postID, data).then(function (response) {
+        _this2.comment = "";
+
+        _this2.showPost();
       });
     }
   },
@@ -2129,9 +2164,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
   data: function data() {
     return {
       allPosts: {},
@@ -38271,7 +38306,7 @@ var render = function() {
       _vm._v(" "),
       _c("CreatePostModal", { ref: "CreatePostModalComponent" }),
       _vm._v(" "),
-      _c("PostList", { ref: "postListComponent" })
+      _c("PostList", { ref: "postListComponent", attrs: { user: _vm.user } })
     ],
     1
   )
@@ -38539,11 +38574,88 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("h1", [_vm._v(" " + _vm._s(_vm.post.title) + " ")]),
-    _vm._v(" "),
-    _c("p", [_vm._v(" " + _vm._s(_vm.post.body) + " ")])
-  ])
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("h1", [_vm._v(" " + _vm._s(_vm.post.title) + " ")]),
+      _vm._v(" "),
+      _c("p", [_vm._v(" " + _vm._s(_vm.post.body) + " ")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "overall-tags-container" },
+        _vm._l(_vm.post.post_tags, function(tag) {
+          return _c("div", { key: tag.id }, [
+            _c("span", { staticClass: "little-tag-container" }, [
+              _vm._v(" " + _vm._s(tag.tag.tagName) + " ")
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "mt-3" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.comment,
+                expression: "comment"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              name: "comment",
+              rows: "1",
+              placeholder: "Add Your Feeling ...",
+              autofocus: ""
+            },
+            domProps: { value: _vm.comment },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.comment = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                return _vm.saveComment()
+              }
+            }
+          },
+          [_vm._v("Comment")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.post.post_comments, function(comment) {
+        return _c("div", { key: comment.id, staticClass: "mt-3" }, [
+          _c("label", { attrs: { for: "" } }, [
+            _c("b", [_vm._v(" " + _vm._s(comment.user.name) + " ")]),
+            _vm._v("  " + _vm._s(comment.comment_time) + " ")
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _vm._v("\n            " + _vm._s(comment.comment) + "\n        ")
+          ]),
+          _vm._v(" "),
+          _c("hr")
+        ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38579,49 +38691,51 @@ var render = function() {
             attrs: { id: "post_" + post.id }
           },
           [
-            _c("div", { staticClass: "btn-group" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-secondary btn-sm dropdown-toggle",
-                  attrs: {
-                    type: "button",
-                    "data-toggle": "dropdown",
-                    "aria-haspopup": "true",
-                    "aria-expanded": "false"
-                  }
-                },
-                [_vm._v("\n            Small button\n        ")]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "dropdown-menu" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        return _vm.removePost(post.id)
+            _vm.user == post.userID
+              ? _c("div", { staticClass: "btn-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary btn-sm dropdown-toggle",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
                       }
-                    }
-                  },
-                  [_vm._v("\n                Delete\n            ")]
-                ),
-                _vm._v("Status:In development\n\n\n            "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    on: {
-                      click: function($event) {
-                        return _vm.callEditData(post.id)
-                      }
-                    }
-                  },
-                  [_vm._v("\n                Update\n            ")]
-                )
-              ])
-            ]),
+                    },
+                    [_vm._v("\n            Small button\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "dropdown-menu" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.removePost(post.id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                Delete\n            ")]
+                    ),
+                    _vm._v("Status:In development\n\n\n            "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info",
+                        on: {
+                          click: function($event) {
+                            return _vm.callEditData(post.id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                Update\n            ")]
+                    )
+                  ])
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "router-link",

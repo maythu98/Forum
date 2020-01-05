@@ -3,19 +3,20 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Post;
+use App\PostComment;
 use App\Tag;
 use App\PostTags;
 class PostController extends Controller
 {
     public function getPosts()
     {
-        $posts = Post::with(['post_tags'=>function($tag){$tag->with('tag');}])->orderBy('created_at','desc')->get();
+        $posts = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');}])->orderBy('created_at','desc')->get();
         return $posts->toJson();
     }
 
     public function showPost($id)
     {
-        $post = Post::with('post_tags')->find($id);
+        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');},'post_comments'=>function($comment){$comment->with('user');}])->find($id);
         return $post->toJson();
     }
     
@@ -39,7 +40,6 @@ class PostController extends Controller
                 }
             }
         }
-
         foreach (request('tags') as $key => $tagName) {
             $tagName = strtolower($tagName);
             $tag = Tag::where('tagName', $tagName)->first();
@@ -70,5 +70,15 @@ class PostController extends Controller
         foreach ($postTags as $key => $postTag) {
             $postTag->delete();
         }
+    }
+
+    public function saveComment(Request $request, $id) {
+        PostComment::create([
+            'postId' => $id,
+            'userId' => Auth::id(),
+            'comment' => request('comment')
+        ]);
+        
+
     }
 }

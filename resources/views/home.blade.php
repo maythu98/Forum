@@ -19,10 +19,12 @@
         </ul>
         </div>
         <div class="col-md-9">
+            @if (Auth::guest())
+                <router-view :user="0"></router-view>
+            @else
+                <router-view :user="{{ Auth::id() }}"></router-view>
+            @endif
             
-
-            
-            <router-view></router-view>
         </div>
     </div>
 </div>

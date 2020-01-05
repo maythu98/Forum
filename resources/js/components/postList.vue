@@ -1,9 +1,8 @@
 <template>
     <div class="container">
     <div v-for="post in allPosts" :key="post.id" >
-
     <div class="overall-post-container" :id="'post_'+ post.id">
-        <div class="btn-group">
+        <div v-if="user == post.userID" class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Small button
             </button>
@@ -55,7 +54,8 @@
 <script>
 import { log } from 'util';
 export default {
-     data() {
+    props : ['user'],
+    data() {
         return {
             allPosts:{},
             tags: [],
@@ -69,7 +69,7 @@ export default {
         }
     },
     methods: {
-        getPosts() {
+        getPosts() {            
             axios.get('/getPosts').then(response=> {
                 this.allPosts = response.data;
             });
