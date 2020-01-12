@@ -47,9 +47,14 @@ export default {
             const data = {};
             data['comment'] = this.comment;
             axios.post('/saveComment/' + this.postID, data).then(response => {
+                const id = response.data;                
                 this.comment = "";
-                this.showPost();
-            });
+                this.showPost();      
+                console.log("Hello");    
+                Echo.channel(`comment.${id}`).listen('.App\\Events\\CommentPushEvent', (e) => {
+                    console.log("hello");
+                });
+            }); 
         }
     },
     mounted() {        

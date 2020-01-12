@@ -11,6 +11,13 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+// Broadcast::channel('App.User.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });
+
+use App\PostComment;
+
+Broadcast::channel('comment.{comment_id}', function ($user, $comment_id) {
+    $comment = PostComment::find($comment_id);
+    return ['id' => $user->id, 'postId' => $comment->postId, 'comment' => $comment->comment];
 });

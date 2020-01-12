@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Events\CommentPushEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Post;
@@ -73,12 +75,12 @@ class PostController extends Controller
     }
 
     public function saveComment(Request $request, $id) {
-        PostComment::create([
+        $comment = PostComment::create([
             'postId' => $id,
             'userId' => Auth::id(),
             'comment' => request('comment')
         ]);
-        
-
+        event(new CommentPushEvent($comment));
+        return $comment->id;
     }
 }
