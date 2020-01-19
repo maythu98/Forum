@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routes';
-import CreatePost from './components/CreatePost';
+
 Vue.use(VueRouter);
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -22,7 +22,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-// Vue.component('create-post', require('./components/CreatePost.vue').default);
+Vue.component('nav-bar', require('./utilities/navBar.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

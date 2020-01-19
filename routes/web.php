@@ -13,22 +13,26 @@
 
 use App\Events\CommentPushEvent;
 
-Route::get('/', function () {
-    return view('home');
-});
+
+// Route::get('/{any}', function () {
+//     return view('home');
+// })->where('any', '.*');
 
 
-Route::post('/createPost/{id}', 'PostController@createPost')->middleware('auth');
+Route::post('/createPost/{id}', 'PostController@createPost');
 Route::get('/getPosts', 'PostController@getPosts');
 Route::post('/removePost/{id}', 'PostController@removePost');
 Route::get('/editPost/{id}', 'PostController@editPost');
 
-Route::get('/showPost/{id}', 'PostController@showPost');
+Route::get('/editPost/{id}', 'PostController@editPost');
 
-Auth::routes();
+Route::get('/showTagSuggestion/{tagName}', 'SearchController@showTagSuggestion');
 
+// Route::get('/', function () {
+//     return view('home');
+// });
 // Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{any}', 'HomeController@index')->where('any', '.*')->name('home');
 
 Route::post('/saveComment/{id}', 'PostController@saveComment');
 

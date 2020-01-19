@@ -1,5 +1,7 @@
 import CreatePost from "./components/CreatePost";
 import ShowPost from "./components/ShowPost";
+import Register from "./auth/Register";
+import LogIn from "./auth/LogIn";
 
 export default {
     mode : 'history',
@@ -15,6 +17,17 @@ export default {
             name: 'show-post',
             component: ShowPost,
             props: true, 
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: LogIn,
+            props: true
         }
     ]    
     

@@ -21,7 +21,7 @@
                     </form>
                     <div class="form-group">
                         <label for="addedTagName">Tags</label>
-                        <input id="addedTagName" type="text" class="form-control" @keyup.enter="addTags()">
+                        <input id="addedTagName" type="text" class="form-control" @keyup.enter="addTags()" @keyup="showTagSuggestion()">
                         <button class="btn btn-secondary" @click="addTags()"> Next </button>
                     </div>
 
@@ -58,6 +58,7 @@ export default {
             postTitle: '',
             postBody: '',
             postId: 0,
+            suggestedTags: []
         }
     },
     methods: { 
@@ -101,6 +102,16 @@ export default {
                 this.postId = post.id;
                 $('#createPostModal').modal();
             });
+        },
+        showTagSuggestion() {
+            
+            let tagName = $('#addedTagName').val();
+            
+            axios.get('/showTagSuggestion/' + tagName).then(response=> {
+                
+                this.suggestedTags = response.data.tags;
+                
+            })
         }
     },
     mounted() {
