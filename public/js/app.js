@@ -1949,6 +1949,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   props: ['registeredEmail'],
   methods: {
     logInUser: function logInUser() {
+      var _this = this;
+
       var formData = new FormData(this.$refs['logInForm']);
       var data = {};
       var _iteratorNormalCompletion = true;
@@ -1979,7 +1981,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
 
       axios.post('/api/login', data).then(function (response) {
-        console.log(response.data); // this.$router.push({ name: 'login', params: { registeredEmail: responseData } });
+        console.log(response.data.token);
+
+        _this.$router.push({
+          name: 'login',
+          params: {
+            registeredEmail: responseData
+          }
+        });
       });
     }
   }
@@ -66798,8 +66807,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /mnt/d/lara/forum/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /mnt/d/lara/forum/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /mnt/d/Lara/forum/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/d/Lara/forum/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),

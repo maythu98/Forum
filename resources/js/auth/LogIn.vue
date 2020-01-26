@@ -28,9 +28,9 @@ export default {
                 Object.assign(data, { [key]: val })
             }
             axios.post('/api/login', data).then(response=> {
-                console.log(response.data);
+                console.log(response.data.token);
                 
-                // this.$router.push({ name: 'login', params: { registeredEmail: responseData } });
+                this.$router.push({ name: 'login', params: { registeredEmail: responseData } });
 
             });
             
