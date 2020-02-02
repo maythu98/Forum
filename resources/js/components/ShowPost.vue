@@ -2,6 +2,7 @@
     <div class="container">
         <h1> {{ post.title }} </h1>
         <p> {{post.body}} </p>
+
         <div class="overall-tags-container">
             <div v-for="tag in post.post_tags" :key="tag.id">
                 <span class="little-tag-container"> {{tag.tag.tagName }} </span>
@@ -29,24 +30,27 @@
 
 <script>
 import { log } from 'util';
+import { store } from '../store'; 
 export default {
     props: ['postID'],
      data() {
         return {
             post: [],
-            comment: ''
+            comment: '',
+            token:''
         }
     },
     methods: { 
-        showPost() {
-            axios.get('/showPost/'+ this.postID).then(response => {
+        showPost() {            
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
+            axios.get('/api/showPost/'+ this.postID).then(response => {
                 this.post = response.data;
             });
         },
         saveComment() {
             const data = {};
             data['comment'] = this.comment;
-            axios.post('/saveComment/' + this.postID, data).then(response => {
+            axios.post('/api/saveComment/' + this.postID, data).then(response => {
                 const id = response.data;                
                 this.comment = "";
                 this.showPost();      
@@ -58,6 +62,7 @@ export default {
         }
     },
     mounted() {        
+
         this.showPost();
     }
 }

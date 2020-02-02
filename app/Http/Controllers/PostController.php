@@ -75,6 +75,7 @@ class PostController extends Controller
     }
 
     public function saveComment(Request $request, $id) {
+        
         $comment = PostComment::create([
             'postId' => $id,
             'userId' => Auth::id(),

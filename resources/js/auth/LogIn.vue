@@ -27,12 +27,17 @@ export default {
             for (let [key, val] of formData.entries()) {
                 Object.assign(data, { [key]: val })
             }
-            axios.post('/api/login', data).then(response=> {
-                console.log(response.data.token);
-                
-                this.$router.push({ name: 'login', params: { registeredEmail: responseData } });
 
-            });
+            
+            this.$store.dispatch('retrieveToken', data)
+                .then(response => {
+                    console.log(response);
+                  
+                    this.$router.push({ path: '/home' });  
+                })
+                .catch(error => {
+                console.log(error.response.data);
+                })
             
         }
     }

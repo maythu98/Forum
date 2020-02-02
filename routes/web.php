@@ -19,12 +19,10 @@ use App\Events\CommentPushEvent;
 // })->where('any', '.*');
 
 
-Route::post('/createPost/{id}', 'PostController@createPost');
 Route::get('/getPosts', 'PostController@getPosts');
 Route::post('/removePost/{id}', 'PostController@removePost');
 Route::get('/editPost/{id}', 'PostController@editPost');
 
-Route::get('/editPost/{id}', 'PostController@editPost');
 
 Route::get('/showTagSuggestion/{tagName}', 'SearchController@showTagSuggestion');
 
@@ -34,7 +32,6 @@ Route::get('/showTagSuggestion/{tagName}', 'SearchController@showTagSuggestion')
 // Route::get('/', 'HomeController@index')->name('home');
 Route::get('/{any}', 'HomeController@index')->where('any', '.*')->name('home');
 
-Route::post('/saveComment/{id}', 'PostController@saveComment');
 
 // Route::get('/ship', function (Request $request)
 // {

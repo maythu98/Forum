@@ -9,13 +9,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <router-link class="nav-link" to="/home">Home </router-link>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Features</a>
                 </li>
                 <li class="nav-item">
                 <router-link class="nav-link" to="/register">Register</router-link>
+                </li>
+                <li class="nav-item">
+                <a href="#" class="nav-link" @click="logout($event)">Log out</a>
                 </li>
             </ul>
         
@@ -24,8 +27,18 @@
 </template>
 
 <script>
-export default {
 
+export default {
+    methods: {
+        logout(event) {
+            event.preventDefault();
+            
+            this.$store.dispatch('destroyToken')
+            .then(response => {
+                this.$router.push({ path: '/home' })
+            })
+        }
+    }
 }
 </script>
 
