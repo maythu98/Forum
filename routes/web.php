@@ -14,22 +14,6 @@
 use App\Events\CommentPushEvent;
 
 
-// Route::get('/{any}', function () {
-//     return view('home');
-// })->where('any', '.*');
-
-
-Route::get('/getPosts', 'PostController@getPosts');
-Route::post('/removePost/{id}', 'PostController@removePost');
-Route::get('/editPost/{id}', 'PostController@editPost');
-
-
-Route::get('/showTagSuggestion/{tagName}', 'SearchController@showTagSuggestion');
-
-// Route::get('/', function () {
-//     return view('home');
-// });
-// Route::get('/', 'HomeController@index')->name('home');
 Route::get('/{any}', 'HomeController@index')->where('any', '.*')->name('home');
 
 

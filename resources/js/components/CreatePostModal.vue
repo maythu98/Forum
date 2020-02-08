@@ -71,8 +71,10 @@ export default {
             }
 
             data['tags'] = this.tags;
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+console.log(this.$store.state.token);
 
-            axios.post('/createPost/' + this.postId, data).then(response=> {
+            axios.post('/api/createPost/' + this.postId, data).then(response=> {
                 this.$root.$emit('callGetPosts');
                 // this.createdPost = response.data;
                 $('#createPostModal').modal('hide');                    

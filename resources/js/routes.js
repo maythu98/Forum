@@ -8,7 +8,7 @@ export default {
 
     routes: [
         {
-            path: '/home',
+            path: '/',
             name: 'create-post',
             component: CreatePost
         },

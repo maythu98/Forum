@@ -1984,7 +1984,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         console.log(response);
 
         _this.$router.push({
-          path: '/home'
+          path: '/'
         });
       })["catch"](function (error) {
         console.log(error.response.data);
@@ -2254,7 +2254,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       }
 
       data['tags'] = this.tags;
-      axios.post('/createPost/' + this.postId, data).then(function (response) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token;
+      console.log(this.$store.state.token);
+      axios.post('/api/createPost/' + this.postId, data).then(function (response) {
         _this.$root.$emit('callGetPosts'); // this.createdPost = response.data;
 
 
@@ -2479,7 +2481,7 @@ __webpack_require__.r(__webpack_exports__);
     getPosts: function getPosts() {
       var _this = this;
 
-      axios.get('/getPosts').then(function (response) {
+      axios.get('/api/getPosts').then(function (response) {
         _this.allPosts = response.data;
       });
     },
@@ -2549,7 +2551,7 @@ __webpack_require__.r(__webpack_exports__);
       event.preventDefault();
       this.$store.dispatch('destroyToken').then(function (response) {
         _this.$router.push({
-          path: '/home'
+          path: '/'
         });
       });
     }
@@ -50994,7 +50996,7 @@ var render = function() {
               [
                 _c(
                   "router-link",
-                  { staticClass: "nav-link", attrs: { to: "/home" } },
+                  { staticClass: "nav-link", attrs: { to: "/" } },
                   [_vm._v("Home ")]
                 )
               ],
@@ -67836,7 +67838,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mode: 'history',
   routes: [{
-    path: '/home',
+    path: '/',
     name: 'create-post',
     component: _components_CreatePost__WEBPACK_IMPORTED_MODULE_0__["default"]
   }, {
@@ -67881,11 +67883,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     token: localStorage.getItem('token')
   },
-  getters: {
-    loggedIn: function loggedIn(state) {
-      return state.token !== null;
-    }
-  },
   mutations: {
     retrieveToken: function retrieveToken(state, token) {
       state.token = token;
@@ -67896,38 +67893,35 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   },
   actions: {
     retrieveToken: function retrieveToken(context, credentials) {
-      return new Promise(function (resolve, reject) {
-        console.log(credentials);
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/login', {
-          email: credentials.email,
-          password: credentials.password
-        }).then(function (response) {
-          console.log(response);
-          var token = response.data.token;
-          localStorage.setItem('token', token);
-          context.commit('retrieveToken', token);
-          resolve(response);
-        })["catch"](function (error) {
-          console.log(error);
-          reject(error);
-        });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/login', {
+        email: credentials.email,
+        password: credentials.password
+      }).then(function (response) {
+        var token = response.data.token;
+        localStorage.setItem('token', token);
+        context.commit('retrieveToken', token);
+        resolve(response);
+      })["catch"](function (error) {
+        console.log(error);
+        reject(error);
       });
     },
     destroyToken: function destroyToken(context) {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
-
       if (context.getters.loggedIn) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/api/logout').then(function (response) {
           localStorage.removeItem('token');
           context.commit('destroyToken');
-          resolve(response); // console.log(response);
-          // context.commit('addTodo', response.data)
         })["catch"](function (error) {
           localStorage.removeItem('token');
           context.commit('destroyToken');
-          reject(error);
         });
       }
+    }
+  },
+  getters: {
+    loggedIn: function loggedIn(state) {
+      return state.token !== null;
     }
   }
 });

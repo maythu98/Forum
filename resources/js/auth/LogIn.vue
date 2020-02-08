@@ -33,7 +33,7 @@ export default {
                 .then(response => {
                     console.log(response);
                   
-                    this.$router.push({ path: '/home' });  
+                    this.$router.push({ path: '/' });  
                 })
                 .catch(error => {
                 console.log(error.response.data);

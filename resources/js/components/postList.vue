@@ -70,7 +70,7 @@ export default {
     },
     methods: {
         getPosts() {            
-            axios.get('/getPosts').then(response=> {
+            axios.get('/api/getPosts').then(response=> {
                 this.allPosts = response.data;
             });
         },

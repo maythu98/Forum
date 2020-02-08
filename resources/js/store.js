@@ -1,17 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 
     state: {
         token: localStorage.getItem('token'),
-    },
-    getters: {
-        loggedIn(state) {
-            return state.token !== null
-          },
     },
     mutations:{
 
@@ -27,18 +23,12 @@ export const store = new Vuex.Store({
 
         retrieveToken(context, credentials) {
 
-            return new Promise((resolve, reject) => {
-                console.log(credentials);
-                
                 axios.post('/api/login', {
                 email: credentials.email,
                 password: credentials.password,
                 })
                 .then(response => {
-                    console.log(response);
-                    
-                    const token = response.data.token;
-        
+                    const token = response.data.token;        
                     localStorage.setItem('token', token);
                     context.commit('retrieveToken', token);
                     resolve(response);
@@ -47,29 +37,30 @@ export const store = new Vuex.Store({
                     console.log(error);
                     reject(error);
                 })
-            })
+            
         },
 
         destroyToken(context) {
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
     
             if (context.getters.loggedIn) {
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
                 axios.post('/api/logout')
                 .then(response => {
-                    localStorage.removeItem('token')
-                    context.commit('destroyToken')
-                    resolve(response)
-                    // console.log(response);
-                    // context.commit('addTodo', response.data)
+                    localStorage.removeItem('token');
+                    context.commit('destroyToken');
                 })
                 .catch(error => {
-                    localStorage.removeItem('token')
-                    context.commit('destroyToken')
-                    reject(error)
+                    localStorage.removeItem('token');
+                    context.commit('destroyToken');
                 })
             }
         },
         
+    },
+    getters: {
+        loggedIn(state) {
+            return state.token !== null
+          },
     }
 
 });

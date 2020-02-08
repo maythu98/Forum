@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                <router-link class="nav-link" to="/home">Home </router-link>
+                <router-link class="nav-link" to="/">Home </router-link>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Features</a>
@@ -35,7 +35,7 @@ export default {
             
             this.$store.dispatch('destroyToken')
             .then(response => {
-                this.$router.push({ path: '/home' })
+                this.$router.push({ path: '/' })
             })
         }
     }
