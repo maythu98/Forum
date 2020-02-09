@@ -7157,8 +7157,7 @@ button.bg-dark:focus {
 }
 
 .bg-white,
-.overall-post-container,
-body {
+.overall-post-container {
   background-color: #fff !important;
 }
 
@@ -7273,7 +7272,6 @@ body {
 }
 
 .rounded-lg,
-.overall-post-container,
 .little-tag-container {
   border-radius: 0.3rem !important;
 }
@@ -8722,7 +8720,6 @@ body {
 }
 
 .mb-4,
-.overall-post-container,
 .my-4 {
   margin-bottom: 1.5rem !important;
 }
@@ -8747,6 +8744,7 @@ body {
 }
 
 .mb-5,
+.overall-post-container,
 .my-5 {
   margin-bottom: 3rem !important;
 }
@@ -11133,7 +11131,6 @@ a.text-dark:focus {
 }
 
 .rounded-lg,
-.overall-post-container,
 .little-tag-container {
   border-radius: 1em !important;
 }
@@ -11151,9 +11148,14 @@ a.text-dark:focus {
   padding: 0.5em;
 }
 
+body {
+  background: #f8f9f9;
+}
+
 .overall-post-container {
   z-index: 99;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.068) !important;
+  border-radius: 1.5em;
+  box-shadow: 8px 8px 18px #e3e3e3, -8px -8px 18px #ffffff;
   -webkit-transition-duration: 0.5s;
           transition-duration: 0.5s;
 }
@@ -11172,7 +11174,8 @@ a.text-dark:focus {
 }
 
 .our-nav {
-  background: linear-gradient(150deg, #9E08FF, #4E5FF0);
+  background: white;
+  box-shadow: 1px 1px 16px 0px #00000017;
 }
 
 .our-nav .our-navbar-toggler .navbar-toggler-icon {

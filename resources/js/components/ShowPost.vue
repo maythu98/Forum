@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { log } from 'util';
 import { store } from '../store'; 
 export default {
     props: ['postID'],
@@ -50,20 +49,30 @@ export default {
         saveComment() {
             const data = {};
             data['comment'] = this.comment;
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
+
             axios.post('/api/saveComment/' + this.postID, data).then(response => {
                 const id = response.data;                
                 this.comment = "";
-                this.showPost();      
-                console.log("Hello");    
-                Echo.channel(`comment.${id}`).listen('.App\\Events\\CommentPushEvent', (e) => {
-                    console.log("hello");
-                });
+                
+                // console.log("Hello");    
+                // Echo.channel(`comment.${id}`).listen('.App\\Events\\CommentPushEvent', (e) => {
+                //     console.log("hello");
+                // });
             }); 
         }
     },
     mounted() {        
 
         this.showPost();
+    },
+    created() {
+        
+                        window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {
+                    console.log(data);
+                    
+                    this.showPost();
+                });    
     }
 }
 </script>

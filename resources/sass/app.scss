@@ -1,16 +1,18 @@
 @import './custom_variables.scss';
 
 body {
-    @extend .bg-white;
+   background: #f8f9f9;
 }
 
 .overall-post-container {
     z-index: 99;
-    box-shadow: $custom-shadow-md;
+    border-radius: 1.5em;
+
+    box-shadow:  8px 8px 18px #e3e3e3, 
+    -8px -8px 18px #ffffff;
     transition-duration: 0.5s;
 
-    @extend .rounded-lg, .row, .mb-4, .p-3, .flex-column, .bg-white, .p-4;
-    
+    @extend .row, .mb-5, .p-3, .flex-column, .p-4 , .bg-white;
     &:hover {
         z-index: 100;
         transition-duration: 0.5s;
@@ -42,8 +44,9 @@ body {
 }
 
 .our-nav {
-    background: linear-gradient(150deg, #9E08FF, #4E5FF0);
-   
+    background: white;
+    box-shadow: 1px 1px 16px 0px #00000017;
+
     .navbar-brand {
         @extend .text-white;
     }

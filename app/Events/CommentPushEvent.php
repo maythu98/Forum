@@ -13,16 +13,16 @@ use Illuminate\Queue\SerializesModels;
 class CommentPushEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $comment;
+    // public $comment;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment)
+    public function __construct()
     {
         //
-        $this->comment = $comment;
+        // $this->comment = $comment;
     }
 
     /**
@@ -32,11 +32,20 @@ class CommentPushEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('comment.'.$this->comment->id);
+        return new Channel('comment-channel');
     }
 
     public function broadcastAs()
     {
-        return 'comment.push';
+        return 'commentEvent';
+    }
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastWith()
+    {
+        return ['title'=>'This notification from ItSolutionStuff.com'];
     }
 }

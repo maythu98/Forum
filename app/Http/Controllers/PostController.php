@@ -81,7 +81,7 @@ class PostController extends Controller
             'userId' => Auth::id(),
             'comment' => request('comment')
         ]);
-        event(new CommentPushEvent($comment));
+        broadcast(new CommentPushEvent($comment))->toOthers();
         return $comment->id;
     }
 }
