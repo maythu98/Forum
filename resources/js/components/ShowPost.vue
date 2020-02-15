@@ -46,33 +46,24 @@ export default {
                 this.post = response.data;
             });
         },
+    
         saveComment() {
             const data = {};
             data['comment'] = this.comment;
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
-
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
             axios.post('/api/saveComment/' + this.postID, data).then(response => {
                 const id = response.data;                
                 this.comment = "";
-                
-                // console.log("Hello");    
-                // Echo.channel(`comment.${id}`).listen('.App\\Events\\CommentPushEvent', (e) => {
-                //     console.log("hello");
-                // });
             }); 
         }
     },
     mounted() {        
-
         this.showPost();
     },
     created() {
-        
-                        window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {
-                    console.log(data);
-                    
-                    this.showPost();
-                });    
+        window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {            
+            this.showPost();
+        });    
     }
 }
 </script>

@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 use App\Events\CommentPushEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as requestSupport;
 use App\Post;
 use App\PostComment;
 use App\Tag;
 use App\PostTags;
+use Illuminate\Support\Facades\DB;
+
 class PostController extends Controller
 {
     public function getPosts()
@@ -18,7 +21,9 @@ class PostController extends Controller
 
     public function showPost($id)
     {
-        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');},'post_comments'=>function($comment){$comment->with('user');}])->find($id);
+        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');},
+                            'post_comments'=>function($comment){$comment->with('user');}
+                        ])->find($id);
         return $post->toJson();
     }
     

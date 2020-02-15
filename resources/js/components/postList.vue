@@ -35,6 +35,11 @@
             </div>
         </div>
 
+        <div class="form-group">
+            View Count : <span> {{ post.view_count }} </span>
+            Comment Count : <span> {{ post.comment_count }} </span>
+        </div>
+
         <!-- <button class="btn btn-danger" @click="removePost(post.id)">
             Delete
         </button>

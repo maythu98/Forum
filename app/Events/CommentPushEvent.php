@@ -46,6 +46,7 @@ class CommentPushEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['title'=>'This notification from ItSolutionStuff.com'];
+        return ['result'=>'Success'];
     }
+    
 }

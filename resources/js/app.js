@@ -3,14 +3,19 @@ import VueRouter from 'vue-router';
 import routes from './routes';
 import {store} from './store';
 import Echo from 'laravel-echo';
-
-Vue.use(VueRouter);
 window.io = require('socket.io-client');
 
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ":" + window.laravel_echo_port
-});
+// if (typeof io !== 'undefined') { 
+  window.Echo = new Echo({
+      broadcaster: 'socket.io',
+      host: window.location.hostname + ":" + window.laravel_echo_port
+  });
+// }
+
+Vue.use(VueRouter);
+
+
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when

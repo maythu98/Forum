@@ -9,7 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand:600&display=swap" rel="stylesheet">
 
