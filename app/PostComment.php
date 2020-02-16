@@ -19,6 +19,10 @@ class PostComment extends Model
         return $this->belongsTo(User::class, 'userId');
     }
 
+    public function sub_comments() {
+        return $this->hasMany(SubComment::class, 'post_comment_id');
+    }
+
     public function getCommentTimeAttribute() {
         return $this->created_at->diffForHumans();
     }

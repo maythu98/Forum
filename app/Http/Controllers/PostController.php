@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentPushEvent;
+use App\Events\SubCommentPushEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as requestSupport;
@@ -9,6 +10,7 @@ use App\Post;
 use App\PostComment;
 use App\Tag;
 use App\PostTags;
+use App\SubComment;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -22,8 +24,9 @@ class PostController extends Controller
     public function showPost($id)
     {
         $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');},
-                            'post_comments'=>function($comment){$comment->with('user');}
+                            'post_comments'=>function($comment){$comment->with(['user','sub_comments' =>function($sub_comment){$sub_comment->with('user');}]);}
                         ])->find($id);
+        
         return $post->toJson();
     }
     
@@ -88,5 +91,16 @@ class PostController extends Controller
         ]);
         broadcast(new CommentPushEvent($comment))->toOthers();
         return $comment->id;
+    }
+
+    public function saveReplyComment(Request $request, $id) {
+        $reply = SubComment::create([
+            'comment' => request('comment'),
+            'user_id' => Auth::id(),
+            'post_comment_id' => $id,
+        ]);
+        broadcast(new SubCommentPushEvent($reply))->toOthers();
+        
+        return $reply;
     }
 }

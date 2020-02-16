@@ -2417,6 +2417,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['postID'],
@@ -2446,6 +2462,16 @@ __webpack_require__.r(__webpack_exports__);
         var id = response.data;
         _this2.comment = "";
       });
+    },
+    saveCommentReply: function saveCommentReply(id) {
+      var comment = $("#replyComment".concat(id)).val();
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + _store__WEBPACK_IMPORTED_MODULE_0__["store"].state.token;
+      axios.post('/api/saveReplyComment/' + id, {
+        'comment': comment
+      }).then(function (response) {
+        var id = response.data;
+        comment = "";
+      });
     }
   },
   mounted: function mounted() {
@@ -2455,6 +2481,9 @@ __webpack_require__.r(__webpack_exports__);
     var _this3 = this;
 
     window.Echo.channel("comment-channel").listen('.commentEvent', function (data) {
+      _this3.showPost();
+    });
+    window.Echo.channel("subComment-channel").listen('.subCommentEvent', function (data) {
       _this3.showPost();
     });
   }
@@ -49861,18 +49890,89 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.post.post_comments, function(comment) {
-        return _c("div", { key: comment.id, staticClass: "mt-3" }, [
-          _c("label", { attrs: { for: "" } }, [
-            _c("b", [_vm._v(" " + _vm._s(comment.user.name) + " ")]),
-            _vm._v("  " + _vm._s(comment.comment_time) + " ")
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _vm._v("\n            " + _vm._s(comment.comment) + "\n        ")
-          ]),
-          _vm._v(" "),
-          _c("hr")
-        ])
+        return _c(
+          "div",
+          { key: comment.id, staticClass: "mt-3" },
+          [
+            _c("label", { attrs: { for: "" } }, [
+              _c("b", [_vm._v(" " + _vm._s(comment.user.name) + " ")]),
+              _vm._v("  " + _vm._s(comment.comment_time) + " ")
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _vm._v("\n            " + _vm._s(comment.comment) + "\n        ")
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn bg-dark text-white",
+                attrs: { type: "button" }
+              },
+              [_vm._v(" + ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn bg-dark text-white",
+                attrs: { type: "button" }
+              },
+              [_vm._v(" - ")]
+            ),
+            _vm._v(" "),
+            _c("div", [
+              _c("textarea", {
+                staticClass: "form-control",
+                attrs: {
+                  name: "replyComment",
+                  id: "replyComment" + comment.id,
+                  cols: "30",
+                  rows: "1",
+                  placeholder: "Reply..."
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary mt-1",
+                  attrs: { type: "submit" },
+                  on: {
+                    click: function($event) {
+                      return _vm.saveCommentReply(comment.id)
+                    }
+                  }
+                },
+                [_vm._v("Reply")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(comment.sub_comments, function(sub_comment) {
+              return _c("div", { key: sub_comment.id, staticClass: "ml-5" }, [
+                _c("label", { attrs: { for: "" } }, [
+                  _c("b", [_vm._v(" " + _vm._s(sub_comment.user.name) + " ")]),
+                  _vm._v(
+                    "  " + _vm._s(sub_comment.comment_time) + " \n            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(sub_comment.comment) +
+                      "\n            "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("hr")
+              ])
+            }),
+            _vm._v(" "),
+            _c("hr")
+          ],
+          2
+        )
       })
     ],
     2

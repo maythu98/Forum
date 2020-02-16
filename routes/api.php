@@ -17,4 +17,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/createPost/{id}', 'PostController@createPost');
     Route::post('/removePost/{id}', 'PostController@removePost');
     Route::post('/saveComment/{id}', 'PostController@saveComment');
+    Route::post('/saveReplyComment/{id}', 'PostController@saveReplyComment');
 });

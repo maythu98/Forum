@@ -23,6 +23,22 @@
             <div>
                 {{ comment.comment }}
             </div>
+            <button type="button" class="btn bg-dark text-white"> + </button>
+            <button type="button" class="btn bg-dark text-white"> - </button>
+            <div>
+                <textarea name="replyComment" :id="`replyComment${comment.id}`" class="form-control" cols="30" rows="1" placeholder="Reply...">
+                </textarea>
+                <button type="submit" class="btn btn-secondary mt-1" @click="saveCommentReply(comment.id)">Reply</button>
+            </div>
+
+            <div v-for="sub_comment in comment.sub_comments" :key="sub_comment.id" class="ml-5">
+                <label for=""> <b> {{ sub_comment.user.name }} </b>  {{ sub_comment.comment_time }} 
+                </label>
+                <div>
+                    {{ sub_comment.comment }}
+                </div>
+                <hr>
+            </div>
             <hr>
         </div>
     </div>
@@ -55,6 +71,15 @@ export default {
                 const id = response.data;                
                 this.comment = "";
             }); 
+        },
+
+        saveCommentReply(id) {
+            let comment = $(`#replyComment${id}`).val();
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
+            axios.post('/api/saveReplyComment/' + id, {'comment': comment}).then(response => {
+                const id = response.data;                
+                comment = "";
+            });
         }
     },
     mounted() {        
@@ -64,6 +89,10 @@ export default {
         window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {            
             this.showPost();
         });    
+
+        window.Echo.channel(`subComment-channel`).listen('.subCommentEvent', (data) => {            
+            this.showPost();
+        });  
     }
 }
 </script>
