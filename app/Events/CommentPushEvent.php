@@ -13,16 +13,16 @@ use Illuminate\Queue\SerializesModels;
 class CommentPushEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    // public $comment;
+    public $comment;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($comment)
     {
         //
-        // $this->comment = $comment;
+        $this->comment = $comment;
     }
 
     /**
@@ -44,9 +44,9 @@ class CommentPushEvent implements ShouldBroadcast
      *
      * @return string
      */
-    public function broadcastWith()
-    {
-        return ['result'=>'Success'];
-    }
+    // public function broadcastWith()
+    // {
+    //     return ['result'=> ];
+    // }
     
 }

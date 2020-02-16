@@ -2439,6 +2439,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       post: [],
+      comments: [],
       comment: '',
       token: ''
     };
@@ -2449,7 +2450,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + _store__WEBPACK_IMPORTED_MODULE_0__["store"].state.token;
       axios.get('/api/showPost/' + this.postID).then(function (response) {
-        _this.post = response.data;
+        _this.post = response.data['post'];
+        _this.comments = response.data['comments'];
       });
     },
     saveComment: function saveComment() {
@@ -2469,8 +2471,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/saveReplyComment/' + id, {
         'comment': comment
       }).then(function (response) {
-        var id = response.data;
-        comment = "";
+        $("#replyComment".concat(id)).val("");
       });
     }
   },
@@ -2481,10 +2482,16 @@ __webpack_require__.r(__webpack_exports__);
     var _this3 = this;
 
     window.Echo.channel("comment-channel").listen('.commentEvent', function (data) {
-      _this3.showPost();
+      _this3.comments.unshift(data.comment);
     });
     window.Echo.channel("subComment-channel").listen('.subCommentEvent', function (data) {
-      _this3.showPost();
+      var comment_id = data.reply.post_comment_id;
+
+      var comment = _this3.comments.filter(function (comment) {
+        return comment.id === comment_id;
+      });
+
+      comment[0].sub_comments.unshift(data.reply);
     });
   }
 });
@@ -49889,7 +49896,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._l(_vm.post.post_comments, function(comment) {
+      _vm._l(_vm.comments, function(comment) {
         return _c(
           "div",
           { key: comment.id, staticClass: "mt-3" },

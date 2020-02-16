@@ -18,7 +18,7 @@
         </div>
 
         <!-- Other Comments -->
-        <div v-for="comment in post.post_comments" :key="comment.id" class="mt-3">
+        <div v-for="comment in comments" :key="comment.id" class="mt-3">
             <label for=""> <b> {{ comment.user.name }} </b>  {{ comment.comment_time }} </label>
             <div>
                 {{ comment.comment }}
@@ -51,6 +51,7 @@ export default {
      data() {
         return {
             post: [],
+            comments: [],
             comment: '',
             token:''
         }
@@ -58,8 +59,9 @@ export default {
     methods: { 
         showPost() {            
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
-            axios.get('/api/showPost/'+ this.postID).then(response => {
-                this.post = response.data;
+            axios.get('/api/showPost/'+ this.postID).then(response => {                
+                this.post = response.data['post'];
+                this.comments = response.data['comments'];
             });
         },
     
@@ -77,8 +79,7 @@ export default {
             let comment = $(`#replyComment${id}`).val();
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.token;
             axios.post('/api/saveReplyComment/' + id, {'comment': comment}).then(response => {
-                const id = response.data;                
-                comment = "";
+                $(`#replyComment${id}`).val("");
             });
         }
     },
@@ -86,12 +87,15 @@ export default {
         this.showPost();
     },
     created() {
-        window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {            
-            this.showPost();
+        window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {    
+            this.comments.unshift(data.comment);
         });    
 
-        window.Echo.channel(`subComment-channel`).listen('.subCommentEvent', (data) => {            
-            this.showPost();
+        
+        window.Echo.channel(`subComment-channel`).listen('.subCommentEvent', (data) => {      
+            let comment_id = data.reply.post_comment_id;
+            let comment = this.comments.filter(comment => comment.id === comment_id);
+            comment[0].sub_comments.unshift(data.reply);            
         });  
     }
 }

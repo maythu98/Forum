@@ -23,11 +23,16 @@ class PostController extends Controller
 
     public function showPost($id)
     {
-        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');},
-                            'post_comments'=>function($comment){$comment->with(['user','sub_comments' =>function($sub_comment){$sub_comment->with('user');}]);}
-                        ])->find($id);
+        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');}])->find($id);
+
+        $comment = PostComment::with(['user', 'sub_comments' => function ($sub_comment) {
+            $sub_comment->with('user');
+        }])->where('postId', $id)->orderBy('created_at', 'desc')->get();
         
-        return $post->toJson();
+        return [ 
+            'post' => $post,
+            'comments' => $comment,
+        ];
     }
     
     public function createPost(Request $request, $id) {
@@ -84,11 +89,13 @@ class PostController extends Controller
 
     public function saveComment(Request $request, $id) {
         
-        $comment = PostComment::create([
+        $postComment = PostComment::create([
             'postId' => $id,
             'userId' => Auth::id(),
             'comment' => request('comment')
         ]);
+        $comment = PostComment::with('user')->find($postComment->id);
+
         broadcast(new CommentPushEvent($comment))->toOthers();
         return $comment->id;
     }
@@ -99,8 +106,11 @@ class PostController extends Controller
             'user_id' => Auth::id(),
             'post_comment_id' => $id,
         ]);
+
+        $reply = SubComment::with('user')->find($reply->id);
         broadcast(new SubCommentPushEvent($reply))->toOthers();
+
+        return "helo";
         
-        return $reply;
     }
 }
