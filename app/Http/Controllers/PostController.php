@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentPushEvent;
+use App\Events\PostPushEvent;
 use App\Events\SubCommentPushEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -68,6 +69,9 @@ class PostController extends Controller
                 'tagId' => $tag->id
             ]);
         }
+
+        $post = Post::with(['post_tags'=>function($post_tag){$post_tag->with('tag');}])->find($post->id);
+        broadcast(new PostPushEvent($post))->toOthers();
     }
 
     public function editPost($id) {

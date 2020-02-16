@@ -93,6 +93,11 @@ export default {
             this.getPosts();
         });
         this.getPosts();
+    },
+    created() {
+        window.Echo.channel(`post-channel`).listen('.postPushEvent', (data) => {    
+            this.allPosts.unshift(data.post);
+        });    
     }
 }
 </script>

@@ -2609,6 +2609,13 @@ __webpack_require__.r(__webpack_exports__);
       _this2.getPosts();
     });
     this.getPosts();
+  },
+  created: function created() {
+    var _this3 = this;
+
+    window.Echo.channel("post-channel").listen('.postPushEvent', function (data) {
+      _this3.allPosts.unshift(data.post);
+    });
   }
 });
 
