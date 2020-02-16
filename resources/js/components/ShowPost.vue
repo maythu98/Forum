@@ -89,12 +89,11 @@ export default {
     created() {
         window.Echo.channel(`comment-channel`).listen('.commentEvent', (data) => {    
             this.comments.unshift(data.comment);
-        });    
+        });
 
-        
         window.Echo.channel(`subComment-channel`).listen('.subCommentEvent', (data) => {      
             let comment_id = data.reply.post_comment_id;
-            let comment = this.comments.filter(comment => comment.id === comment_id);
+            let comment = this.comments.filter(comment => comment.id === comment_id);                        
             comment[0].sub_comments.unshift(data.reply);            
         });  
     }

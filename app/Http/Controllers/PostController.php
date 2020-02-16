@@ -98,23 +98,19 @@ class PostController extends Controller
             'userId' => Auth::id(),
             'comment' => request('comment')
         ]);
-        $comment = PostComment::with('user')->find($postComment->id);
+        $comment = PostComment::with('user','sub_comments')->find($postComment->id);
 
         broadcast(new CommentPushEvent($comment))->toOthers();
-        return $comment->id;
     }
 
     public function saveReplyComment(Request $request, $id) {
-        $reply = SubComment::create([
+        $subComment = SubComment::create([
             'comment' => request('comment'),
             'user_id' => Auth::id(),
             'post_comment_id' => $id,
         ]);
 
-        $reply = SubComment::with('user')->find($reply->id);
-        broadcast(new SubCommentPushEvent($reply))->toOthers();
-
-        return "helo";
-        
+        $reply = SubComment::with('user')->find($subComment->id);
+        broadcast(new SubCommentPushEvent($reply))->toOthers();        
     }
 }
